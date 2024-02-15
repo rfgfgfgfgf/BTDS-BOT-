@@ -18,25 +18,25 @@ Random Animal Command: This feature displays a variety of random animal images, 
 
 
 # User Information: 
-The bot allows users to retrieve information about themselves or others, such as avatars and account details.
+*The bot allows users to retrieve information about themselves or others, such as avatars and account details.*
 
 # Leveling System: 
-Users earn levels based on their activity, creating a sense of achievement and recognition within the server. The level command provides an easy way to check one's level.
+*Users earn levels based on their activity, creating a sense of achievement and recognition within the server. The level command provides an easy way to check one's level.*
 
 # Ciphers and Codes: 
-The bot supports text encryption using the Caesar cipher, text-to-ASCII conversion, and Morse code translation, adding a layer of mystery and fun.
-Randomization and Information:
+*The bot supports text encryption using the Caesar cipher, text-to-ASCII conversion, and Morse code translation, adding a layer of mystery and fun.
+Randomization and Information:*
 
-# Random Color Generation: 
-Users can generate random colors, providing a visually appealing and creative aspect to the bot's functionality.
-Coin Flip and Ping Commands: The bot offers a simple coin flip game and a command to check the user's ping.
+`# Random Color Generation: `
+*Users can generate random colors, providing a visually appealing and creative aspect to the bot's functionality.
+Coin Flip and Ping Commands: The bot offers a simple coin flip game and a command to check the user's ping.*
 
-# Balance and Work Commands: 
-Users can check their virtual balance and earn money through the work command, creating an economy-like system within the server.
+`# Balance and Work Commands: `
+*Users can check their virtual balance and earn money through the work command, creating an economy-like system within the server.*
 
 # Weather Command: 
-Although under development, the bot aims to provide current weather information for a specified location.
+*Although under development, the bot aims to provide current weather information for a specified location.*
 
 
-                                                                # Conclusion:
-The BTDS Discord Bot seamlessly integrates various features, catering to entertainment, utility, user engagement, and even a virtual economy. Its modular design and diverse functionalities make it a valuable addition to Discord servers, fostering interaction and entertainment among server members. As the bot continues to evolve, it promises to bring even more exciting features and a richer user experience to Discord communities.
+# Conclusion:
+*The BTDS Discord Bot seamlessly integrates various features, catering to entertainment, utility, user engagement, and even a virtual economy. Its modular design and diverse functionalities make it a valuable addition to Discord servers, fostering interaction and entertainment among server members. As the bot continues to evolve, it promises to bring even more exciting features and a richer user experience to Discord communities.*
