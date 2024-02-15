@@ -27,11 +27,11 @@ Random Animal Command: This feature displays a variety of random animal images, 
 *The bot supports text encryption using the Caesar cipher, text-to-ASCII conversion, and Morse code translation, adding a layer of mystery and fun.
 Randomization and Information:*
 
-`# Random Color Generation: `
+# Random Color Generation: 
 *Users can generate random colors, providing a visually appealing and creative aspect to the bot's functionality.
 Coin Flip and Ping Commands: The bot offers a simple coin flip game and a command to check the user's ping.*
 
-`# Balance and Work Commands: `
+# Balance and Work Commands: 
 *Users can check their virtual balance and earn money through the work command, creating an economy-like system within the server.*
 
 # Weather Command: 
