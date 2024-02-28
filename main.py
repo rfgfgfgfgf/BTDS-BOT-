@@ -5,25 +5,24 @@ import random
 import secrets
 import os
 import requests
-from nextcord.ext import commands
+import aiohttp
+from nextcord.ext import commands, tasks
 
 intents = nextcord.Intents.default()
 intents.guilds = True
 intents.message_content = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-money = {}
-
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user.name} ({bot.user.id})')
-    game = nextcord.Game("BTDS BOT")
-    await bot.change_presence(status=nextcord.Status.online, activity=game)
+    learning = nextcord.Game("BTDS BOT")
+    await bot.change_presence(status=nextcord.Status.idle, activity=learning)
 
     for guild in bot.guilds:
         welcome_message = f"Hey there! I'm {bot.user.name}! I'm ready to work in {guild.name}!"
 
-        channel = nextcord.utils.get(guild.channels, name="test")
+        channel = nextcord.utils.get(guild.channels, name="bdts-bot-testing")
 
         if channel:
             await channel.send(welcome_message)
@@ -116,7 +115,6 @@ async def calculator(ctx, operation: str, num1: float, num2: float):
         else:
             raise ValueError("Invalid operation. Please choose 'add', 'multiply', 'subtract', or 'divide'.")
 
-        # Create a beautiful embed to display the result
         embed = nextcord.Embed(
             title=f"Arithmetic Operation",
             description=f"Performing {num1} {operator} {num2}",
@@ -164,7 +162,7 @@ async def password(ctx):
 @bot.slash_command(name="coin_flip", description="Flip a coin")
 async def coin_flip(ctx):
     result = random.choice(['Heads', 'Tails'])
-    embed = nextcord.Embed(title="Coin Flip", color=0xe74c3c)
+    embed = nextcord.Embed(title="Coin Flip", color=0x7289da)
     embed.add_field(name="Result:", value=result)
     await ctx.send(embed=embed)
 
@@ -172,7 +170,7 @@ async def coin_flip(ctx):
 @bot.slash_command(name="ping", description="Check your ping")
 async def ping(ctx):
     ping = round(bot.latency * 1000)
-    embed = nextcord.Embed(title = "Ping", description = f"Your ping is: {ping}")
+    embed = nextcord.Embed(title = "Ping", description = f"Your ping is: {ping}", color = 0x7289da)
     await ctx.send(embed=embed)
 
     
@@ -200,26 +198,9 @@ async def userinfo(ctx, user: nextcord.User = None):
     await ctx.send(embed=embed)
 
 
-# Caesar cipher
-@bot.slash_command(name="caesar_cipher", description="Encrypt text using the Caesar cipher")
-async def caesar_cipher(ctx, shift: int, *, text: str):
-    if not (1 <= shift <= 25):
-        await ctx.send("Please choose a shift between 1 and 25.")
-        return
+# 
 
-    def caesar(text, shift):
-        result = ""
-        for char in text:
-            if char.isalpha():
-                start = ord('A') if char.isupper() else ord('a')
-                result += chr((ord(char) - start + shift) % 26 + start)
-            else:
-                result += char
-        return result
 
-    encrypted_text = caesar(text, shift)
-    embed = nextcord.Embed(title="Caesar code", description=f"Here is your transaltion of {text}: {encrypted_text}", color=0x7289da)
-    await ctx.send(embed=embed)
 
 # Converting text to ASCII code
 @bot.slash_command(name='ascii', description="Converts text to ASCII")
@@ -228,34 +209,7 @@ async def ascii(ctx, *, text: str):
     embed = nextcord.Embed(title="ASCII code", description=f"Here is your transaltion of {text}: {ascii_text}", color=0x7289da)
     await ctx.send(embed=embed)
 
-# Morse code
-morse_code_dict = {
-    'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.', 'G': '--.', 'H': '....',
-    'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..', 'M': '--', 'N': '-.', 'O': '---', 'P': '.--.',
-    'Q': '--.-', 'R': '.-.', 'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
-    'Y': '-.--', 'Z': '--..',
-    '0': '-----', '1': '.----', '2': '..---', '3': '...--', '4': '....-', '5': '.....',
-    '6': '-....', '7': '--...', '8': '---..', '9': '----.',
-    '.': '.-.-.-', ',': '--..--', '?': '..--..', "'": '.----.', '!': '-.-.--', '/': '-..-.',
-    '(': '-.--.', ')': '-.--.-', '&': '.-...', ':': '---...', ';': '-.-.-.', '=': '-...-',
-    '+': '.-.-.', '-': '-....-', '_': '..--.-', '"': '.-..-.', '$': '...-..-', '@': '.--.-.'
-}
-@bot.slash_command(name="morse_code", description="Convert text to Morse code")
-async def morse_code(ctx, *, text: str):
-    def text_to_morse(text):
-        morse_result = ""
-        for char in text.upper():
-            if char.isalpha() or char.isdigit() or char in morse_code_dict:
-                morse_result += morse_code_dict[char] + ' '
-            else:
-                morse_result += ' '
-        return morse_result.strip()
-
-    morse_text = text_to_morse(text)
-    embed = nextcord.Embed(title="Morse code", description=f"Here is your translation into Morse code: {morse_text}", color=0x7289da)
-    await ctx.send(embed=embed)
-
-            # additional commands
+# additional commands
 # random color 
 @bot.slash_command(name="random_color", description="Generate a random color")
 async def random_color(ctx):
@@ -263,97 +217,138 @@ async def random_color(ctx):
     embed = nextcord.Embed(title="Random color", description=f"Here is random color balance: {color}", color=0x7289da)
     await ctx.send(embed=embed)
 
-        #WEATHER (в разработке)
-@bot.slash_command(name="weather", description="Get the current weather for a location")
-async def weather(ctx, city: str, country_code: str = ""):
-    api_key = "YOUR_OPENWEATHERMAP_API_KEY"
-    base_url = "http://api.openweathermap.org/data/2.5/weather"
-    
-    params = {
-        "q": f"{city},{country_code}",
-        "appid": api_key,
-        "units": "metric"  
-    }
+                            #NEW CREATTED COMMANDS
+@bot.slash_command(name = "truth_or_dare", description = 'Plays a game Truth or Dare with you.')
+async def truth_or_dare(ctx, your_choice: str):
+    user = ctx.user.name
+    truth1 = ["When was the last time you lied?",'What is the worst thing you have ever done at work?', 
+             'When was the last time you cried?','What is your biggest fear?', 'What is your biggest fantasy?',
+             'Who is the last person you searched on Discord?'
+             ]
+    dare2 = ["Read out the last dirty text you sent.",'Eat five spoonfuls of a condiment of your choice',
+            'Try to juggle 3 things of the group is choice.', "Pretend to be a food item of your choice.",
+            'Show the most embarrassing photo on your phone.', 'Show the last five people you texted and what the messages said.'
+            ]
+    if your_choice.lower() == 'truth':
+        choice = random.choice(truth1)
+        await ctx.send(choice)
 
-    response = requests.get(base_url, params=params)
-    weather_data = response.json()
-
-    if response.status_code == 200:
-        temperature = weather_data["main"]["temp"]
-        description = weather_data["weather"][0]["description"]
-        await ctx.send(f"Current weather in {city}, {country_code}:\nTemperature: {temperature}°C\nDescription: {description}")
+    elif your_choice.lower() == 'dare':
+        choice2 = random.choice(dare2)
+        await ctx.send(choice2)
     else:
-        await ctx.send("Unable to fetch weather information.")
+        await ctx.send(f'{user} type truth or dare to play the game')
 
 
-            # FINANSE COMMANDS OF BTDS
-        
-@bot.slash_command(name='balance', description="Check your balance")
-async def balance(ctx):
-    user_id = str(ctx.user.id)
-    balance = money.get(user_id, 0)
-    embed = nextcord.Embed(title="Balance", description=f"Here is your balance: {balance}", color=0x7289da)
+#FAKE PASSPORT 
+@bot.slash_command(name="fake_passport", description="Creates you a fake passport")
+async def fake_passport(ctx, your_name: str, your_surname: str, your_year: int, your_age: int, your_country: str,):
+
+    embed = nextcord.Embed(title="Fake passport", description=f"User Information for {your_name}", color=0x7289da)
+    embed.set_thumbnail(url=ctx.user.avatar.url)
+    embed.add_field(name="Name:", value=your_name, inline=False)
+    embed.add_field(name="Surname:", value=your_surname, inline=False)
+    embed.add_field(name="Year of birth:", value=your_year, inline=False)
+    embed.add_field(name="Age:", value=your_age, inline=False)
+    embed.add_field(name="Country:", value=your_country, inline=False)
     await ctx.send(embed=embed)
-
-@bot.slash_command(name='work', description="Earn some money")
-async def work(ctx):
-    user_id = str(ctx.user.id)
-    earnings = random.randint(10, 30)
-    
-    if user_id in money:
-        money[user_id] += earnings
-    else:
-        money[user_id] = earnings
-    embed = nextcord.Embed(title="Income", description=f"Here is your income: {earnings}", color=0x7289da)
-    await ctx.send(embed=embed)
-
-#LEVEL OF USER AND MEMBERS OF SERVER
-conn = sqlite3.connect('level.db')
-c = conn.cursor()
-
-# Создание таблицы, если она не существует
-c.execute('''
-          CREATE TABLE IF NOT EXISTS users (
-              user_id INTEGER PRIMARY KEY,
-              level INTEGER DEFAULT 1
-          )
-          ''')
-conn.commit()
-
-@bot.event
-async def on_message(message):
-    # Обработка сообщений для увеличения опыта и уровня
-    if message.user.bot:
-        return
-
-    user_id = message.user.id
-    c.execute('SELECT * FROM users WHERE user_id = ?', (user_id,))
-    user_data = c.fetchone()
-
-    if user_data is None:
-        c.execute('INSERT INTO users (user_id) VALUES (?)', (user_id,))
-        conn.commit()
-        user_data = (user_id, 1)
-
-    # Увеличение опыта пользователя
-    new_level = user_data[1] + 1
-    c.execute('UPDATE users SET level = ? WHERE user_id = ?', (new_level, user_id))
-    conn.commit()
-
-    await bot.process_commands(message)
-
-#LEVEL RANG
-@bot.slash_command(name='level', description="Shows your level")
-async def level(ctx):
-    user_id = ctx.user.id
-    c.execute('SELECT * FROM users WHERE user_id = ?', (user_id,))
-    user_data = c.fetchone()
-
-    if user_data is not None:
-        level = user_data[1]
-        await ctx.send(f"Your level is {level}")
-        embed = nextcord.embed(title = "Level", description = f"Your level is {level}!")
+                            
+# FAKE DONATE COMMAND
+       
+#hi
+@bot.slash_command(name = "hi", description = "Greets you")
+async def hi(ctx, your_mood = str):
+    user = ctx.user.name
+    if your_mood.lower() == "good" or "хорошое" or "great" or "bien" or "excelent" or "very well":
+        embed = nextcord.Embed(title = "Your mood", description=f"It seems like {user} is at {your_mood} mood! Well done!", color = 0x7289da)
+        await ctx.send(embed=embed)
+    elif your_mood.lower() == "нормальное" or "well" or "normal":
+        embed = nextcord.Embed(title = "Your mood", description=f"It seems like you mood is at {your_mood} mood .{user}! make it great", color = 0x7289da)
         await ctx.send(embed=embed)
     else:
-        embed = nextcord.embed(title = "Level", description = "You haven't earned any levels yet")
+        embed = nextcord.Embed(title = "Your mood", description=f"It seems like you mood is at {your_mood} mood .{user}! make it great", color =0x7289da)
         await ctx.send(embed=embed)
+
+#DONATE
+@bot.slash_command(name="donate", description="Creates a fake donate and demands you to become a philanthropist")
+async def donate(ctx, сумма: float):
+    user = ctx.user.name
+    if сумма >= 1000:
+        embed = nextcord.Embed(title = "Your donate", description=f'Внимание! {user} официально стал филантропом! Спасибо за щедрое пожертвование в размере {сумма}$!', color =0x7289da)
+        await ctx.send(embed=embed)
+    elif сумма >= 100:
+        embed = nextcord.Embed(title = "Your donate", description=f'Спасибо, {user}, за донат в размере {сумма}$! Ты крутой!', color =0x7289da)
+        await ctx.send(embed=embed)
+    elif сумма <= 100:
+        embed = nextcord.Embed(title = "Your donate", description=f'Спасибо за ваше пожертвование, {user}! Ваш вклад в размере {сумма}$ ценится.', color =0x7289da)
+        await ctx.send(embed=embed)
+    else:
+        embed = nextcord.Embed(title = "Your donate", description="Пожалуйста, введите положительную сумму для пожертвования.", color =0x7289da)
+        await ctx.send(embed=embed)
+
+#SET AVATAR COMMAND
+@bot.slash_command(name='set_avatar', description='Set an animated avatar for the bot')
+async def set_avatar(ctx, avatar_url: str):
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(avatar_url) as resp:
+                if resp.status == 200:
+                    avatar_image = await resp.read()
+                    await bot.user.edit(avatar=avatar_image)
+                    await ctx.send("Avatar changed successfully.")
+                else:
+                    await ctx.send(f"Failed to fetch avatar. Status code: {resp.status}")
+    except Exception as e:
+        embed = nextcord.Embed(title = "Error with setting avatar", description=f"Error changing avatar: {e}", color =0x7289da)
+        await ctx.send(embed=embed)
+
+#ECOLOGY MEME GENERATOR (in prosess of developing)
+@bot.slash_command(name='ecology_memes', description="Sends you a random ecology meme.")
+async def ecology_mem(ctx):
+    meme_folder = "image"
+    meme = [f for f in os.listdir(meme_folder) if os.path.isfile(os.path.join(meme_folder, f))]
+
+    if meme:
+        random_meme = os.path.join(meme_folder, random.choice(meme))
+        with open(random_meme, 'rb') as f:
+            picture = nextcord.File(f)
+        await ctx.send(file=picture)
+    else:
+        await ctx.send("No meme found.")
+
+# calculations
+@bot.slash_command(name = "suggest", description="Gets you a random suggestion!")
+async def suggest(ctx):
+    user = ctx.user.name  
+    suggests = [
+        f'{user}, live by the mantra - Reduce, Reuse, and Recycle.',
+        f'{user}, keep our surroundings clean.',
+        f'{user}, plant more trees.',
+        f'{user}, conserve water and water bodies.',
+        f'{user}, educate people about the significance of conserving nature.',
+        f'{user}, cycle more and drive fewer cars on the road.'
+    ]
+    suggestion = random.choice(suggests) 
+    embed = nextcord.Embed(title = "Random Suggest", description = f"{suggestion}", color = 0x7289da) 
+    await ctx.send(embed=embed)
+
+#FAKE BANKCARD GENERATOR
+@bot.slash_command(name="bankcard_generator", description="Creates you a fake cart")
+async def bankcard_generator(ctx, type_of_cart: str, your_name: str, number_of_cart: int, date: int, pin_code: int):
+    if pin_code == 4:
+        await ctx.send("Here you are!") 
+    else:
+        await ctx.send("You need to type 4(****) random digits")
+    if number_of_cart == 16:
+        await ctx.send("Here you are!")
+    else:
+        await ctx.send("Write 16 random digits in number of you cart!")
+
+    embed = nextcord.Embed(title="Fake Bankcart", description=f"Bankcard for {your_name}", color=0x7289da)
+    embed.set_thumbnail(url=ctx.user.avatar.url)
+    embed.add_field(name="Type of card:", value=type_of_cart, inline=False)
+    embed.add_field(name="Number of card:", value=number_of_cart, inline=False)
+    embed.add_field(name="Date of cart:", value=date, inline=False)
+    embed.add_field(name="Owner:", value=your_name, inline=False)
+    embed.add_field(name="Pin code:", value=pin_code, inline=False)
+    await ctx.send(embed=embed)
