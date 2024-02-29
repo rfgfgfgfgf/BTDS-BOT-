@@ -42,4 +42,4 @@ Coin Flip and Ping Commands: The bot offers a simple coin flip game and a comman
 *The BTDS Discord Bot seamlessly integrates various features, catering to entertainment, utility, user engagement, and even a virtual economy. Its modular design and diverse functionalities make it a valuable addition to Discord servers, fostering interaction and entertainment among server members. As the bot continues to evolve, it promises to bring even more exciting features and a richer user experience to Discord communities.*
 
 # P.S (**from creator**)
-The code has been corrected by not using ai on 28th of Febuary, 2024, 8:14 (AZE UTC + 4)
+**To try the code on your own, please type your bot token in bot.run**
