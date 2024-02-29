@@ -221,23 +221,32 @@ async def random_color(ctx):
 @bot.slash_command(name = "truth_or_dare", description = 'Plays a game Truth or Dare with you.')
 async def truth_or_dare(ctx, your_choice: str):
     user = ctx.user.name
-    truth1 = ["When was the last time you lied?",'What is the worst thing you have ever done at work?', 
-             'When was the last time you cried?','What is your biggest fear?', 'What is your biggest fantasy?',
-             'Who is the last person you searched on Discord?'
+    truth1 = [f"{user}'s last lie: When was the last time you lied?", 
+             f"{user}'s work misdeed: What is the worst thing you have ever done at work?", 
+             f"{user}'s crying game: When was the last time you cried?", 
+             f"{user}'s fear factor: What is your biggest fear?", 
+             f"{user}'s fantasy world: What is your biggest fantasy?", 
+             f"{user}'s discord search: Who is the last person you searched on discord?"
              ]
-    dare2 = ["Read out the last dirty text you sent.",'Eat five spoonfuls of a condiment of your choice',
-            'Try to juggle 3 things of the group is choice.', "Pretend to be a food item of your choice.",
-            'Show the most embarrassing photo on your phone.', 'Show the last five people you texted and what the messages said.'
-            ]
+    dare2 = [f"{user}'s dirty secret: Read out the last dirty text you sent.", 
+             f"{user}'s condiment challenge: Eat five spoonfuls of a condiment of your choice", 
+             f"{user}'s juggling act: Try to juggle 3 things of the group's choice.", 
+             f"{user}'s food item impersonation: Pretend to be a food item of your choice.", 
+             f"{user}'s embarrassing moment: Show the most embarrassing photo on your phone.", 
+             f"{user}'s text history: Show the last five people you texted and what the messages said."
+             ]
     if your_choice.lower() == 'truth':
         choice = random.choice(truth1)
-        await ctx.send(choice)
+        embed = nextcord.Embed(title="Truth", description=choice, color=0x7289da)
+        await ctx.send(embed=embed)
 
     elif your_choice.lower() == 'dare':
         choice2 = random.choice(dare2)
-        await ctx.send(choice2)
+        embed = nextcord.Embed(title="Dare", description=choice2, color=0x7289da)
+        await ctx.send(embed=embed)
     else:
-        await ctx.send(f'{user} type truth or dare to play the game')
+        embed = nextcord.Embed(title="Invalid Choice", description=f'{user} type "truth" or "dare" to play the game', color=0x7289da)
+        await ctx.send(embed=embed)
 
 
 #FAKE PASSPORT 
@@ -303,9 +312,9 @@ async def set_avatar(ctx, avatar_url: str):
         await ctx.send(embed=embed)
 
 #ECOLOGY MEME GENERATOR (in prosess of developing)
-@bot.slash_command(name='ecology_memes', description="Sends you a random ecology meme.")
-async def ecology_mem(ctx):
-    meme_folder = "image"
+@bot.slash_command(name='random_memes', description="Sends you a random ecology meme.")
+async def random_memes(ctx):
+    meme_folder = "images"
     meme = [f for f in os.listdir(meme_folder) if os.path.isfile(os.path.join(meme_folder, f))]
 
     if meme:
@@ -351,6 +360,19 @@ async def bankcard_generator(ctx, type_of_cart: str, your_name: str, number_of_c
     embed.add_field(name="Date of cart:", value=date, inline=False)
     embed.add_field(name="Owner:", value=your_name, inline=False)
     embed.add_field(name="Pin code:", value=pin_code, inline=False)
+    await ctx.send(embed=embed)
+
+#gifhub command 
+@bot.slash_command(name = "github", description = 'Provides information about a GitHub user.')
+async def github(ctx, user: str):
+    user_info_url = f"https://api.github.com/users/{user}"
+    response = requests.get(user_info_url)
+    user_info = response.json()
+    avatar_url = user_info['avatar_url']
+    embed = nextcord.Embed(title=f"{user_info['name']}'s GitHub Profile", color=0x7289da, url=user_info['html_url'])
+    embed.set_thumbnail(url=avatar_url)
+    embed.add_field(name="Bio", value=user_info["bio"], inline=False)
+    embed.add_field(name="Public Repositories", value=user_info["public_repos"], inline=True)
     await ctx.send(embed=embed)
 
 bot.run(Write_your_token here)
