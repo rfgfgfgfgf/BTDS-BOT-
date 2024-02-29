@@ -352,3 +352,5 @@ async def bankcard_generator(ctx, type_of_cart: str, your_name: str, number_of_c
     embed.add_field(name="Owner:", value=your_name, inline=False)
     embed.add_field(name="Pin code:", value=pin_code, inline=False)
     await ctx.send(embed=embed)
+
+bot.run(Write_your_token here)
