@@ -43,6 +43,7 @@ Coin Flip and Ping Commands: The bot offers a simple coin flip game and a comman
 
 # Instructions:
 -**To try the code on your own, please type your bot token in bot.run(write_your_token)**
+
 -**In commands random_meme and animals, please, uplode images of memes and animals and name the folder image(for animals), images(for random memes)**
 
  # P.S:
