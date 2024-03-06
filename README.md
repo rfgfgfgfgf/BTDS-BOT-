@@ -41,7 +41,7 @@ and speed of wind as well.
 *The BTDS Discord Bot seamlessly integrates various features, catering to entertainment, utility, user engagement, and even a virtual economy. Its modular design and diverse functionalities make it a valuable addition to Discord servers, fostering interaction and entertainment among server members. As the bot continues to evolve, it promises to bring even more exciting features and a richer user experience to Discord communities.*
 
 # Instructions:
-**1. Type pip install nextcord in your terminal
+1. Type pip install nextcord in your terminal
 
 2. Type pip install string in your terminal
 
