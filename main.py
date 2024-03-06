@@ -5,7 +5,6 @@ import random
 import secrets
 import os
 import requests
-import openai
 import aiohttp
 import pytz
 from datetime import datetime
