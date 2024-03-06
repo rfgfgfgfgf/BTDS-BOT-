@@ -133,26 +133,27 @@ async def calculator(ctx, operation: str, num1: float, num2: float):
         await ctx.send(f'Error: {str(e)}')
 
   #Random commands
-  #Adding roles add embed
+#add role
 @bot.slash_command(name="add_roles", description="Add a role to yourself")
 async def add_roles(ctx, role: nextcord.Role = None):
     if role is None:
-        await ctx.send("You need to choose your role")
+        await ctx.send("You need to choose a role")
         return
     await ctx.user.add_roles(role)
-    embed = nextcord.embed(Title = "Add roles", description = f'Role {role.name} has been successfully assigned!')
+    embed = nextcord.Embed(title = "Add roles", description = f'Role {role} has been successfully assigned!')
     embed.set_footer(text=f"Requested by {ctx.user.display_name}", icon_url=ctx.user.avatar.url)
+    await ctx.send(embed=embed)
 
-  #Removing roles add embed
+#remove role
 @bot.slash_command(name="remove_roles", description="Remove a role from yourself")
 async def remove_roles(ctx, role: nextcord.Role = None):
     if role is None:
         await ctx.send("You need to choose a role")
         return
     await ctx.user.remove_roles(role)
-    embed = nextcord.embed(Title = "Remove roles", description = f'Role {role.name} has been successfully removed!')
+    embed = nextcord.Embed(title = "Remove roles", description = f'Role {role} has been successfully removed!')
     embed.set_footer(text=f"Requested by {ctx.user.display_name}", icon_url=ctx.user.avatar.url)
-
+    await ctx.send(embed=embed)
 
   #Games and entertainment
   #Password
@@ -305,19 +306,19 @@ async def mood_machine(ctx, your_mood = str):
 
  #DONATE
 @bot.slash_command(name="donate", description="Creates a fake donate and demands you to become a philanthropist")
-async def donate(ctx, сумма: float):
+async def donate(ctx, sum: float):
     user = ctx.user.name
-    if сумма >= 1000:
-        embed = nextcord.Embed(title = "Your donate", description=f'Внимание! {user} официально стал филантропом! Спасибо за щедрое пожертвование в размере {сумма}$!', color =' 0000')
+    if sum >= 1000:
+        embed = nextcord.Embed(title="Your Donation", description=f"Attention! {user} has officially become a philanthropist! Thank you for your generous donation of {sum}$!")
         await ctx.send(embed=embed)
-    elif сумма >= 100:
-        embed = nextcord.Embed(title = "Your donate", description=f'Спасибо, {user}, за донат в размере {сумма}$! Ты крутой!', color =' 0000')
+    elif sum >= 100:
+        embed = nextcord.Embed(title="Your Donation", description=f'Thank you, {user}, for your donation of {sum}$! You are awesome!')
         await ctx.send(embed=embed)
-    elif сумма <= 100:
-        embed = nextcord.Embed(title = "Your donate", description=f'Спасибо за ваше пожертвование, {user}! Ваш вклад в размере {сумма}$ ценится.', color =' 0000')
+    elif sum <= 100:
+        embed = nextcord.Embed(title="Your Donation", description=f'Thank you for your donation, {user}! Your contribution of {sum}$ is appreciated.')
         await ctx.send(embed=embed)
     else:
-        embed = nextcord.Embed(title = "Your donate", description="Пожалуйста, введите положительную сумму для пожертвования.", color =' 0000')
+        embed = nextcord.Embed(title="Your Donation", description="Please enter a positive amount for your donation.")
         await ctx.send(embed=embed)
 
  #SET AVATAR COMMAND
@@ -419,7 +420,7 @@ async def weather(ctx, *, city: str):
         wind_speed = data['wind']['speed']
         humidity = data['main']['humidity']
 
-        timezone = pytz.timezone("UTC+4")  
+        timezone = pytz.timezone("UTC")  
         current_time = datetime.now(timezone).strftime("%Y-%m-%d %H:%M:%S")
 
         embed = nextcord.Embed(title=f'Weather in {city}', description=f'{temperature}°C with {description}.')
@@ -432,4 +433,4 @@ async def weather(ctx, *, city: str):
         await ctx.send(f'Error: {data["message"]}')
 
 
-bot.run(write you bot token here)
+bot.run('write you bot token here')
