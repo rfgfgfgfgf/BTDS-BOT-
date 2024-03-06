@@ -41,12 +41,20 @@ and speed of wind as well.
 *The BTDS Discord Bot seamlessly integrates various features, catering to entertainment, utility, user engagement, and even a virtual economy. Its modular design and diverse functionalities make it a valuable addition to Discord servers, fostering interaction and entertainment among server members. As the bot continues to evolve, it promises to bring even more exciting features and a richer user experience to Discord communities.*
 
 # Instructions:
--**To try the code on your own, please type your bot token in bot.run(write_your_token)**
-
--**In commands random_meme and animals, please, uplode images of memes and animals and name the folder image(for animals), images(for random memes)**
-
+**1. Type pip install nextcord in your terminal
+2. Type pip install string in your terminal
+3. Type pip install sqlite in your terminal
+4. Type pip install secrets in your terminal
+5. Type pip install os in your terminal
+6. Type pip install requests in your terminal
+7. Type pip install aiohttp in your terminal
+8. Type pip install pytz in your terminal***
+9. To use "animals command", **create "image" folder in Visual Studio or PyCharm and put there any images of animals.**
+10. To use "random memes" command, **create images folder in Visual Studio or PyCharm and put there any memes(images).**
+ 
+ 
  # P.S:
- **If you have any questions about the code - type to rfgfgfgfgf in discord)**
+ **If you have any questions about the code - type to # ***rfgfgfgfgf*** in discord)**
 
 
 
