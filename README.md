@@ -18,25 +18,24 @@ Random Animal Command: This feature displays a variety of random animal images, 
 
 
 # 🟡User Information: 
-*The bot allows users to retrieve information about themselves or others, such as avatars and account details.*
+*The bot allows users to retrieve information about themselves or others, such as avatars and account details. You can search for user in GitHub easier with github command.*
 
-# ⚪Leveling System: 
-*Users earn levels based on their activity, creating a sense of achievement and recognition within the server. The level command provides an easy way to check one's level.*
 
 # 🔴Ciphers and Codes: 
-*The bot supports text encryption using the Caesar cipher, text-to-ASCII conversion, and Morse code translation, adding a layer of mystery and fun.
+*The bot supports text encryption using the text-to-ASCII conversion, and Morse code translation, adding a layer of mystery and fun.
 Randomization and Information:*
 
 # 🔵Random Color Generation: 
 *Users can generate random colors, providing a visually appealing and creative aspect to the bot's functionality.
-Coin Flip and Ping Commands: The bot offers a simple coin flip game and a command to check the user's ping.*
+Coin Flip and Ping Commands: The bot offers a simple coin flip game and a command to check the user's ping.
+Also there is random ecology suggestions command - this command helps you to help nature by giving you required suggestions.*
 
-# 🟢Balance and Work Commands: 
-*Users can check their virtual balance and earn money through the work command, creating an economy-like system within the server.*
+# 🟢Fake generations: 
+*Users can create their own fake bankcard(by their own way) and fake donate. However, the most engaging is the fake passport generation - bot can create you a fake passport using your typed options.*
 
 # 🟡Weather Command: 
-*Although under development, the bot aims to provide current weather information for a specified location.*
-
+*The weather command is considered as the most interesting command because it consists of api key that intergrates with Openweather site. The main isea of the Weather command is to show weather of requested city, humidity, current time(utc + 4)
+and speed of wind as well. 
 
 # Conclusion: 🐱‍💻
 *The BTDS Discord Bot seamlessly integrates various features, catering to entertainment, utility, user engagement, and even a virtual economy. Its modular design and diverse functionalities make it a valuable addition to Discord servers, fostering interaction and entertainment among server members. As the bot continues to evolve, it promises to bring even more exciting features and a richer user experience to Discord communities.*
