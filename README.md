@@ -42,14 +42,23 @@ and speed of wind as well.
 
 # Instructions:
 **1. Type pip install nextcord in your terminal
+
 2. Type pip install string in your terminal
+
 3. Type pip install sqlite in your terminal
+
 4. Type pip install secrets in your terminal
+
 5. Type pip install os in your terminal
+
 6. Type pip install requests in your terminal
+
 7. Type pip install aiohttp in your terminal
-8. Type pip install pytz in your terminal***
+
+8. Type pip install pytz in your terminal
+
 9. To use "animals command", **create "image" folder in Visual Studio or PyCharm and put there any images of animals.**
+
 10. To use "random memes" command, **create images folder in Visual Studio or PyCharm and put there any memes(images).**
  
  
